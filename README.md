@@ -22,7 +22,8 @@ defmodule Sample.App do
   alias Sample.InfluxDB
 
   def log do
-    InfluxDB.write()
+    InfluxDB.query!("CREATE DATABASE example_db")
+    InfluxDB.write!("mymeas,mytag=1 myfield=90 1463683075", precision: :second)
   end
 end
 ```
@@ -120,7 +121,7 @@ InfluxDB writes to the `DEFAULT` retention policy if you do not specify a retent
 #### Write a point to the database `mydb` with a timestamp in seconds
 
 ```elixir
-iex> write("mymeas,mytag=1 myfield=90 1463683075", database: "mydb", precision: s)
+iex> write("mymeas,mytag=1 myfield=90 1463683075", database: "mydb", precision: :second)
 :ok
 ```
 
